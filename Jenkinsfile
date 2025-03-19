@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "${env.HOME}/.dotnet"
-        PATH = "${env.HOME}/.dotnet:${env.PATH}"
+        DOTNET_ROOT = "C:\\Program Files\\dotnet"
+        PATH = "C:\\Program Files\\dotnet;${env.PATH}"
     }
 
     stages {
@@ -16,11 +16,9 @@ pipeline {
         stage('Install .NET 9') {
             steps {
                 script {
-                    def dotnetExists = sh(script: "dotnet --version || echo 'not_installed'", returnStdout: true).trim()
-                    if (dotnetExists == 'not_installed') {
-                        sh 'wget https://download.visualstudio.microsoft.com/download/pr/dotnet-install.sh -O dotnet-install.sh'
-                        sh 'chmod +x dotnet-install.sh'
-                        sh './dotnet-install.sh --channel 9.0'
+                    def dotnetExists = bat(script: "dotnet --version", returnStatus: true)
+                    if (dotnetExists != 0) {
+                        bat 'winget install --id Microsoft.DotNet.SDK.9 -e --source winget'
                     }
                 }
             }
@@ -28,25 +26,25 @@ pipeline {
 
         stage('Restore Dependencies') {
             steps {
-                sh 'dotnet restore'
+                bat 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'dotnet build --configuration Release'
+                bat 'dotnet build --configuration Release'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'dotnet test --no-build --configuration Release'
+                bat 'dotnet test --no-build --configuration Release'
             }
         }
 
         stage('Publish') {
             steps {
-                sh 'dotnet publish -c Release -o output'
+                bat 'dotnet publish -c Release -o output'
             }
         }
 
