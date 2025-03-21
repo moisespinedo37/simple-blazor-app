@@ -18,7 +18,7 @@ pipeline {
                 script {
                     def dotnetExists = bat(script: "dotnet --version", returnStatus: true)
                     if (dotnetExists != 0) {
-                        bat 'winget install --id Microsoft.DotNet.SDK.9 -e --source winget'
+                        sh 'winget install --id Microsoft.DotNet.SDK.9 -e --source winget'
                     }
                 }
             }
@@ -26,25 +26,25 @@ pipeline {
 
         stage('Restore Dependencies') {
             steps {
-                bat 'dotnet restore'
+                sh 'dotnet restore'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'dotnet build --configuration Release'
+                sh 'dotnet build --configuration Release'
             }
         }
 
         stage('Test') {
             steps {
-                bat 'dotnet test --no-build --configuration Release'
+                sh 'dotnet test --no-build --configuration Release'
             }
         }
 
         stage('Publish') {
             steps {
-                bat 'dotnet publish -c Release -o output'
+                sh 'dotnet publish -c Release -o output'
             }
         }
 
