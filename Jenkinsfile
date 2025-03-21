@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "C:\\Program Files\\dotnet"
-        PATH = "C:\\Program Files\\dotnet;${env.PATH}"
+        DOTNET_ROOT = "/usr/local/share/dotnet/dotnet
+        PATH = "/usr/local/share/dotnet:${env.PATH"
     }
 
     stages {
@@ -16,7 +16,7 @@ pipeline {
         stage('Install .NET 9') {
             steps {
                 script {
-                    def dotnetExists = bat(script: "dotnet --version", returnStatus: true)
+                    def dotnetExists = sh(script: "dotnet --version", returnStatus: true)
                     if (dotnetExists != 0) {
                         sh 'winget install --id Microsoft.DotNet.SDK.9 -e --source winget'
                     }
