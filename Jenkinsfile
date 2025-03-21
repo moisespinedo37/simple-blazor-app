@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOTNET_ROOT = "/usr/local/share/dotnet/dotnet
+        DOTNET_ROOT = "/usr/local/share/dotnet/dotnet"
         PATH = "/usr/local/share/dotnet:${env.PATH"
     }
 
