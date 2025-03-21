@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         DOTNET_ROOT = "/usr/local/share/dotnet/dotnet"
-        PATH = "/usr/local/share/dotnet:${env.PATH"
+        PATH = "/usr/local/share/dotnet:${env.PATH}" 
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/joedayz/simple-blazor-app.git'
+                git branch: 'main', url: 'https://github.com/moisespinedo37/simple-blazor-app.git'
             }
         }
 
